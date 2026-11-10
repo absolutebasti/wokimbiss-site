@@ -204,3 +204,21 @@
     feld.focus();
   });
 })();
+
+// Anruf-Knopf unten: sichtbar, sobald der Knopf in der Kopfzeile aus dem Bild ist.
+(function () {
+  var dock = document.querySelector(".call-dock-bar");
+  var kopf = document.querySelector(".head .btn-call");
+  if (!dock || !kopf) return;
+  function sichtbar() {
+    var r = kopf.getBoundingClientRect();
+    return r.bottom > 8 && r.top < window.innerHeight - 8;
+  }
+  function setzen() { dock.classList.toggle("weg", sichtbar()); }
+  setzen();
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(setzen, { threshold: [0, 1] }).observe(kopf);
+  }
+  window.addEventListener("scroll", setzen, { passive: true });
+  window.addEventListener("resize", setzen);
+})();
