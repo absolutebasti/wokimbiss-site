@@ -222,3 +222,17 @@
   window.addEventListener("scroll", setzen, { passive: true });
   window.addEventListener("resize", setzen);
 })();
+
+// Karte in der Anfahrt: Google Maps lädt erst nach einem Tipp. Ohne JavaScript öffnet der Link Google Maps.
+(function () {
+  var link = document.querySelector("[data-karte]");
+  if (!link) return;
+  link.addEventListener("click", function (e) {
+    e.preventDefault();
+    var f = document.createElement("iframe");
+    f.title = "Karte von Google Maps: wo der Imbiss steht";
+    f.referrerPolicy = "no-referrer-when-downgrade";
+    f.src = link.getAttribute("data-karte");
+    link.parentNode.replaceChild(f, link);
+  });
+})();
